@@ -7,9 +7,12 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
     "strict": true,
     "outDir": "dist",
     "baseUrl": "./",
   },
-  "exclude": ["./node_modules"]
+  "lib": ["es2015"],
+  "exclude": ["node_modules"]
 }
