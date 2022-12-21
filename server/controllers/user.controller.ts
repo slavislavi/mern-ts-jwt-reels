@@ -41,13 +41,13 @@ class UserController {
     }
   }
 
-  async getUsers (req: Request, res: Response, next: NextFunction) {
+  async getVideos (req: Request, res: Response, next: NextFunction) {
     try {
-      res.json(['123', '456', '789'])
+      res.json(['123', '456'])
     } catch (e) {
       
     }
   }
 }
 
-module.exports = new UserController();
+export default new UserController();
