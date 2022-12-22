@@ -1,5 +1,5 @@
 import nodemailer, { SentMessageInfo } from 'nodemailer';
-import Mail from "nodemailer/lib/mailer";
+import Mail from 'nodemailer/lib/mailer';
 
 class MailService {
   transporter;
@@ -12,6 +12,7 @@ class MailService {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
+      tls: { rejectUnauthorized: false },
     });
   }
 

@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
+import { Document, Schema, model } from 'mongoose';
 
-export interface Token {
+export interface Token extends Document {
   user: Schema.Types.ObjectId;
   refreshToken: string;
 }
@@ -10,4 +10,4 @@ const tokenSchema = new Schema<Token>({
   refreshToken: { type: String, required: true }
 });
 
-export const TokenModel = model<Token>('Token', tokenSchema);
+export const TokenModel = model<Token & Document>('Token', tokenSchema);

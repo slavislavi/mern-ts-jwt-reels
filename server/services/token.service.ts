@@ -1,8 +1,9 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { TokenModel } from '../models/token.model';
+import UserDto from '../dtos/user.dto';
 
 class TokenService {
-  generateTokens(payload: JwtPayload) {
+  generateTokens(payload: UserDto) {
     const accessToken = jwt.sign(
       payload,
       process.env.JWT_ACCESS_SECRET as string,
@@ -16,6 +17,30 @@ class TokenService {
     return { accessToken, refreshToken };
   }
 
+  validateAccessToken(token: string) {
+    try {
+      const userData = jwt.verify(
+        token,
+        process.env.JWT_ACCESS_SECRET as string
+      );
+      return userData as UserDto;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  validateRefreshToken(token: string) {
+    try {
+      const userData = jwt.verify(
+        token,
+        process.env.JWT_REFRESH_SECRET as string
+      );
+      return userData as UserDto;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async saveToken(userId: string, refreshToken: string) {
     const tokenData = await TokenModel.findOne({ user: userId });
     if (tokenData) {
@@ -24,6 +49,16 @@ class TokenService {
     }
     const token = await TokenModel.create({ user: userId, refreshToken });
     return token;
+  }
+
+  async removeToken(refreshToken: string) {
+    const tokenData = await TokenModel.deleteOne({ refreshToken });
+    return tokenData;
+  }
+
+  async findToken(refreshToken: string) {
+    const tokenData = await TokenModel.findOne({ refreshToken });
+    return tokenData;
   }
 }
 
