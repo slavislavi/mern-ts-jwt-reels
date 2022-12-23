@@ -1,5 +1,5 @@
-import 'react-redux';
-import {combineReducers} from '@reduxjs/toolkit';
+import "react-redux";
+import { combineReducers } from "@reduxjs/toolkit";
 // import * as fromGetUsers from './getUsers';
 
 export interface AppState {
