@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { FC } from "react";
 
-export const App = () => {
-  return (
-    <div className="App">Trrra ta ta ta ta</div>
-  );
-}
+export const App: FC = () => {
+  return <div>Trrra ta ta ta ta</div>;
+};
