@@ -1,5 +1,10 @@
 import React, { FC } from "react";
+import Form from "./components/Form";
 
 export const App: FC = () => {
-  return <div>Trrra ta ta ta ta</div>;
+  return (
+    <div>
+      <Form />
+    </div>
+  );
 };

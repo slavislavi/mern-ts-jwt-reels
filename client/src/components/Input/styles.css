@@ -1,0 +1,32 @@
+.input-container {
+  width: 40%;
+  max-width: 500px;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.input-container label {
+  font-size: smaller;
+  color: dimgray;
+  transition: all .2s ease;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 4px 12px;
+  background-color: white;
+  border: 1px solid dimgray;
+  border-radius: 4px;
+  outline: none;
+}
+
+input:focus {
+  border: 1px solid #5cbffd;
+}
+
+input:focus + label {
+  color: #5cbffd;
+  font-weight: 500;
+  letter-spacing: 1.1px;
+}
