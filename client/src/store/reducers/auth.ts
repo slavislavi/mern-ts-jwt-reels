@@ -3,26 +3,25 @@ import {
   AuthActionUnion,
   confirmRegisterAction,
   loginAction,
+  logoutAction,
   registerAction,
-  setTokenAction,
 } from "../actions/auth";
+import { User } from "../../models/User";
 
 export interface State {
   loading: boolean;
-  token: string;
-  refreshToken: string;
-  error: { data: string } | null;
+  error: string | null;
   registerError: string;
-  userEmail: string | null;
+  user: User;
+  isAuth: boolean;
 }
 
 export const initialState: State = {
   loading: false,
-  token: "",
-  refreshToken: "",
   error: null,
   registerError: "",
-  userEmail: null,
+  user: {} as User,
+  isAuth: false,
 };
 
 export const reducer = createReducer<State, AuthActionUnion>(initialState)
@@ -30,35 +29,49 @@ export const reducer = createReducer<State, AuthActionUnion>(initialState)
     ...state,
     loading: true,
   }))
-  .handleAction(loginAction.success, (state) => ({
-    ...state,
-    loading: false,
-  }))
   .handleAction(loginAction.failure, (state, action) => ({
     ...state,
     loading: false,
-    error: action.payload.error,
+    error: action.payload,
   }))
+  .handleAction(loginAction.success, (state, action) => ({
+    ...state,
+    loading: false,
+    user: action.payload.user,
+    isAuth: true,
+  }))
+
   .handleAction(registerAction.failure, (state, action) => ({
     ...state,
     loading: false,
-    registerError: action.payload.error,
+    registerError: action.payload,
   }))
-  .handleAction(registerAction.success, (state) => ({
+  .handleAction(registerAction.success, (state, action) => ({
     ...state,
     loading: false,
+    user: action.payload.user,
+    isAuth: true,
   }))
+
   .handleAction(confirmRegisterAction.failure, (state, action) => ({
     ...state,
     loading: false,
-    error: action.payload.error,
+    error: action.payload,
+    isAuth: false,
   }))
-  .handleAction(confirmRegisterAction.success, (state) => ({
+  .handleAction(confirmRegisterAction.success, (state, action) => ({
     ...state,
     loading: false,
+    user: action.payload.user
   }))
-  .handleAction(setTokenAction, (state, action) => ({
+
+  .handleAction(logoutAction.request, (state) => ({
     ...state,
-    token: action.payload.token,
-    refreshToken: action.payload.refreshToken,
-  }));
+    loading: true,
+  }))
+  .handleAction(logoutAction.failure, (state, action) => ({
+    ...state,
+    loading: false,
+    error: action.payload,
+  }))
+  .handleAction(logoutAction.success, () => initialState);

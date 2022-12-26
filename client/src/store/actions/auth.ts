@@ -1,4 +1,6 @@
-import { ActionType, createAsyncAction, createAction } from "typesafe-actions";
+import { ActionType, createAsyncAction } from "typesafe-actions";
+import { AuthResponse } from "../../models/response/AuthResponse";
+import { AuthFormValues } from "../../models/AuthFormValues";
 
 export enum AuthTypes {
   Login = "[Auth] Login",
@@ -16,47 +18,35 @@ export enum AuthTypes {
   Logout = "[Auth] Logout",
   LogoutSuccess = "[Auth] LogoutSuccess",
   LogoutFailure = "[Auth] LogoutFailure",
-
-  SetToken = "[Auth] SetToken",
 }
 
 export const loginAction = createAsyncAction(
   AuthTypes.Login,
   AuthTypes.LoginSuccess,
   AuthTypes.LoginFailure
-)<LoginFormValues, AuthResponse, { error: { data: string } }>();
+)<AuthFormValues, AuthResponse, string>();
 
 export const registerAction = createAsyncAction(
   AuthTypes.Register,
   AuthTypes.RegisterSuccess,
   AuthTypes.RegisterFailure
-)<RegisterFormValues, AuthResponse, { error: string }>();
+)<AuthFormValues, AuthResponse, string>();
 
 export const logoutAction = createAsyncAction(
   AuthTypes.Logout,
-  AuthTypes.LoginSuccess,
-  AuthTypes.LoginFailure
-)<void, void, { error: { data: string } }>();
+  AuthTypes.LogoutSuccess,
+  AuthTypes.LogoutFailure
+)<void, void, string>();
 
 export const confirmRegisterAction = createAsyncAction(
   AuthTypes.ConfirmRegister,
   AuthTypes.ConfirmRegisterSuccess,
   AuthTypes.ConfirmRegisterFailure
-)<
-  { userId: string; token: string },
-  AuthResponse,
-  { error: { data: string } }
->();
-
-export const setTokenAction = createAction(AuthTypes.SetToken)<{
-  token: string;
-  refreshToken: string;
-}>();
+)<{ userId: string; token: string }, AuthResponse, string>();
 
 export type AuthActionUnion = ActionType<
   | typeof loginAction
   | typeof registerAction
-  | typeof confirmRegisterAction
-  | typeof setTokenAction
   | typeof logoutAction
+  | typeof confirmRegisterAction
 >;
