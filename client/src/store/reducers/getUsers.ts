@@ -1,9 +1,10 @@
 import { createReducer } from "typesafe-actions";
 import { UsersActionUnion, getUsersAction } from "../actions/getUsers";
+import { User } from "../../models/User";
 
 export interface State {
   loading: boolean;
-  users: string[];
+  users: User[];
   error: string;
 }
 

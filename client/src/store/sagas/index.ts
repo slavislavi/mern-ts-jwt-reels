@@ -1,7 +1,8 @@
-// import {fork} from 'redux-saga/effects';
-// импотирую другие уотчеры
+import {fork} from 'redux-saga/effects';
+import { authSagaWatcher } from './auth';
+import { getUsersSagaWatcher } from './getUsersSaga';
 
-export function* rootSaga() {
-  // yield fork(уотчер1);
-  // yield fork(уотчер2);
+export function* rootSaga(): Generator {
+  yield fork(authSagaWatcher);
+  yield fork(getUsersSagaWatcher);
 }

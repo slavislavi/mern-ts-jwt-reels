@@ -1,4 +1,5 @@
 import { ActionType, createAsyncAction } from "typesafe-actions";
+import { User } from "../../models/User";
 
 export enum UsersTypes {
   GetUsers = "[UsersTypes] GetUsers",
@@ -10,6 +11,6 @@ export const getUsersAction = createAsyncAction(
   UsersTypes.GetUsers,
   UsersTypes.GetUsersSuccess,
   UsersTypes.GetUsersFailure
-)<void, string[], string>();
+)<void, User[], string>();
 
 export type UsersActionUnion = ActionType<typeof getUsersAction>;

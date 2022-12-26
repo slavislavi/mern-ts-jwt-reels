@@ -27,6 +27,5 @@ input:focus {
 
 input:focus + label {
   color: #5cbffd;
-  font-weight: 500;
-  letter-spacing: 1.1px;
+  font-weight: 700;
 }

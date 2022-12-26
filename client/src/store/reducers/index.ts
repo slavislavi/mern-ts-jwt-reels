@@ -1,11 +1,14 @@
 import "react-redux";
 import { combineReducers } from "@reduxjs/toolkit";
-// import * as fromGetUsers from './getUsers';
+import * as fromGetUsers from './getUsers';
+import * as fromAuth from './auth';
 
 export interface AppState {
-  // users: fromGetUsers.State;
+  auth: fromAuth.State;
+  users: fromGetUsers.State;
 }
 
 export const rootReducer = combineReducers<AppState>({
-  // users: fromGetUsers.reducer,
+  auth: fromAuth.reducer,
+  users: fromGetUsers.reducer,
 });
