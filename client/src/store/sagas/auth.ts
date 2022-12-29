@@ -1,29 +1,16 @@
-import {
-  takeLatest,
-  Effect,
-  call,
-  put,
-  SagaReturnType,
-} from "redux-saga/effects";
+import { takeLatest, call, put, SagaReturnType } from "redux-saga/effects";
 import { ActionType } from "typesafe-actions";
-import {
-  confirmRegisterAction,
-  loginAction,
-  logoutAction,
-  registerAction,
-} from "../actions/auth";
+import { loginAction, logoutAction, registerAction } from "../actions/auth";
 import AuthService from "../../services/AuthService";
 
-export function* loginSagaWorker({
-  payload,
-}: ActionType<typeof loginAction.request>) {
+export function* loginSagaWorker({payload}: ActionType<typeof loginAction.request>) {
   try {
     const response: SagaReturnType<typeof AuthService.login> = yield call(
       AuthService.login,
       payload.email,
       payload.password
     );
-
+    console.log('[LOGIN response]', response);
     // Navigator.push(RouteNames.DATASETTINGS);
     yield call(localStorage.setItem, "token", response.data.accessToken);
     yield put(loginAction.success(response.data));
@@ -32,13 +19,11 @@ export function* loginSagaWorker({
   }
 }
 
-export function* registerSagaWorker({
-  payload,
-}: ActionType<typeof registerAction.request>) {
+export function* registerSagaWorker({payload}: ActionType<typeof registerAction.request>) {
   try {
     const response: SagaReturnType<typeof AuthService.registration> =
       yield call(AuthService.registration, payload.email, payload.password);
-
+    console.log('[SIGNUP response]', response);
     // Navigator.push(RouteNames.CHECK_YOUR_EMAIL);
     yield call(localStorage.setItem, "token", response.data.accessToken);
     yield put(registerAction.success(response.data));
@@ -47,22 +32,22 @@ export function* registerSagaWorker({
   }
 }
 
-export function* confirmRegisterSagaWorker({
-  payload,
-}: ActionType<typeof confirmRegisterAction.request>) {
-  try {
-    const response: SagaReturnType<typeof AuthService.confirmRegistration> =
-      yield call(
-        AuthService.confirmRegistration,
-        payload.userId,
-        payload.token
-      );
-    // Navigator.push(RouteNames.DATASETTINGS);
-    yield put(confirmRegisterAction.success(response.data));
-  } catch (error: any) {
-    yield put(confirmRegisterAction.failure(error.response.data.message));
-  }
-}
+// export function* confirmRegisterSagaWorker({
+//   payload,
+// }: ActionType<typeof confirmRegisterAction.request>) {
+//   try {
+//     const response: SagaReturnType<typeof AuthService.confirmRegistration> =
+//       yield call(
+//         AuthService.confirmRegistration,
+//         payload.userId,
+//         payload.token
+//       );
+//     // Navigator.push(RouteNames.DATASETTINGS);
+//     yield put(confirmRegisterAction.success(response.data));
+//   } catch (error: any) {
+//     yield put(confirmRegisterAction.failure(error.response.data.message));
+//   }
+// }
 
 export function* logoutSagaWorker() {
   try {
@@ -74,9 +59,9 @@ export function* logoutSagaWorker() {
   }
 }
 
-export function* authSagaWatcher(): Generator<Effect, void> {
+export function* authSagaWatcher() {
   yield takeLatest(loginAction.request, loginSagaWorker);
   yield takeLatest(registerAction.request, registerSagaWorker);
-  yield takeLatest(confirmRegisterAction.request, confirmRegisterSagaWorker);
+  // yield takeLatest(confirmRegisterAction.request, confirmRegisterSagaWorker);
   yield takeLatest(logoutAction.request, logoutSagaWorker);
 }

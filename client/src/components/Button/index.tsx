@@ -1,15 +1,15 @@
-import React, { FC } from 'react';
-import './styles.css';
+import React, { ButtonHTMLAttributes, FC } from "react";
+import "./styles.css";
 
-interface ButtonProps {
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  children?: React.ReactNode;
-  disabled?: boolean;
-};
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  outlined?: boolean;
+}
 
-const Button: FC<ButtonProps> = ({children, ...rest}) => {
+const Button: FC<ButtonProps> = ({ outlined, children, title, ...rest }) => {
   return (
-    <button className='btn' {...rest}>{children}</button>
+    <button className={`btn ${outlined ? 'outlined' : ''}`} {...rest}>
+      {children || title}
+    </button>
   );
 };
 

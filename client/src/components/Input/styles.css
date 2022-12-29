@@ -27,5 +27,8 @@ input:focus {
 
 input:focus + label {
   color: #5cbffd;
-  font-weight: 700;
+}
+
+input:disabled {
+  border: 1px solid transparent;
 }

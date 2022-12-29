@@ -11,6 +11,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  user-select: none;
 }
 
 .btn:hover {
@@ -19,4 +20,30 @@
 
 .btn:active {
   background-color: #b9e2fc;
+}
+
+.outlined {
+  background-color: transparent;
+  color: #5cbffd;
+  border: 1px solid #5cbffd;
+}
+
+.outlined:hover {
+  background-color: white;
+}
+
+.outlined:active {
+  background-color: transparent;
+}
+
+:disabled {
+  background-color: lightgray;
+  color: dimgray;
+  border: none;
+  pointer-events: none;
+}
+
+.outlined:disabled {
+  background-color: transparent;
+  border: 1px solid dimgray;
 }

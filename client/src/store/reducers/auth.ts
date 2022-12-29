@@ -1,7 +1,6 @@
 import { createReducer } from "typesafe-actions";
 import {
   AuthActionUnion,
-  confirmRegisterAction,
   loginAction,
   logoutAction,
   registerAction,
@@ -12,7 +11,7 @@ export interface State {
   loading: boolean;
   error: string | null;
   registerError: string;
-  user: User;
+  currentUser: User;
   isAuth: boolean;
 }
 
@@ -20,7 +19,7 @@ export const initialState: State = {
   loading: false,
   error: null,
   registerError: "",
-  user: {} as User,
+  currentUser: {} as User,
   isAuth: false,
 };
 
@@ -37,10 +36,14 @@ export const reducer = createReducer<State, AuthActionUnion>(initialState)
   .handleAction(loginAction.success, (state, action) => ({
     ...state,
     loading: false,
-    user: action.payload.user,
+    currentUser: action.payload.user,
     isAuth: true,
   }))
 
+  .handleAction(registerAction.request, (state) => ({
+    ...state,
+    loading: true,
+  }))
   .handleAction(registerAction.failure, (state, action) => ({
     ...state,
     loading: false,
@@ -49,21 +52,21 @@ export const reducer = createReducer<State, AuthActionUnion>(initialState)
   .handleAction(registerAction.success, (state, action) => ({
     ...state,
     loading: false,
-    user: action.payload.user,
+    currentUser: action.payload.user,
     isAuth: true,
   }))
 
-  .handleAction(confirmRegisterAction.failure, (state, action) => ({
-    ...state,
-    loading: false,
-    error: action.payload,
-    isAuth: false,
-  }))
-  .handleAction(confirmRegisterAction.success, (state, action) => ({
-    ...state,
-    loading: false,
-    user: action.payload.user
-  }))
+  // .handleAction(confirmRegisterAction.failure, (state, action) => ({
+  //   ...state,
+  //   loading: false,
+  //   error: action.payload,
+  //   isAuth: false,
+  // }))
+  // .handleAction(confirmRegisterAction.success, (state, action) => ({
+  //   ...state,
+  //   loading: false,
+  //   user: action.payload.user
+  // }))
 
   .handleAction(logoutAction.request, (state) => ({
     ...state,
