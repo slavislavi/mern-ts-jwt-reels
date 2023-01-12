@@ -6,9 +6,10 @@ import { call, put, takeLatest } from "redux-saga/effects";
 export function* getUsersSagaWorker() {
   try {
     const response: User[] = yield call(UserService.fetchUsers);
+    console.log('[GetUSERS RESPONSE]: ', response);
     yield put(getUsersAction.success(response));
-  } catch (error) {
-    yield put(getUsersAction.failure(error as string));
+  } catch (error: any) {
+    yield put(getUsersAction.failure(error));
   }
 }
 

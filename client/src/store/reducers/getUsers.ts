@@ -27,5 +27,5 @@ export const reducer = createReducer<State, UsersActionUnion>(initialState)
   .handleAction(getUsersAction.failure, (state, action) => ({
     ...state,
     loading: false,
-    error: action.payload,
+    error: action.payload.message,
   }));

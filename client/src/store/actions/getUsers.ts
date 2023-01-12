@@ -11,6 +11,6 @@ export const getUsersAction = createAsyncAction(
   UsersTypes.GetUsers,
   UsersTypes.GetUsersSuccess,
   UsersTypes.GetUsersFailure
-)<void, User[], string>();
+)<void, User[], { message: string }>();
 
 export type UsersActionUnion = ActionType<typeof getUsersAction>;

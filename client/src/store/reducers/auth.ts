@@ -9,7 +9,7 @@ import { User } from "../../models/User";
 
 export interface State {
   loading: boolean;
-  error: string | null;
+  error: string;
   registerError: string;
   currentUser: User;
   isAuth: boolean;
@@ -17,7 +17,7 @@ export interface State {
 
 export const initialState: State = {
   loading: false,
-  error: null,
+  error: "",
   registerError: "",
   currentUser: {} as User,
   isAuth: false,
@@ -31,7 +31,7 @@ export const reducer = createReducer<State, AuthActionUnion>(initialState)
   .handleAction(loginAction.failure, (state, action) => ({
     ...state,
     loading: false,
-    error: action.payload,
+    error: action.payload.message,
   }))
   .handleAction(loginAction.success, (state, action) => ({
     ...state,
@@ -47,7 +47,7 @@ export const reducer = createReducer<State, AuthActionUnion>(initialState)
   .handleAction(registerAction.failure, (state, action) => ({
     ...state,
     loading: false,
-    registerError: action.payload,
+    registerError: action.payload.message,
   }))
   .handleAction(registerAction.success, (state, action) => ({
     ...state,
@@ -56,18 +56,6 @@ export const reducer = createReducer<State, AuthActionUnion>(initialState)
     isAuth: true,
   }))
 
-  // .handleAction(confirmRegisterAction.failure, (state, action) => ({
-  //   ...state,
-  //   loading: false,
-  //   error: action.payload,
-  //   isAuth: false,
-  // }))
-  // .handleAction(confirmRegisterAction.success, (state, action) => ({
-  //   ...state,
-  //   loading: false,
-  //   user: action.payload.user
-  // }))
-
   .handleAction(logoutAction.request, (state) => ({
     ...state,
     loading: true,
@@ -75,6 +63,6 @@ export const reducer = createReducer<State, AuthActionUnion>(initialState)
   .handleAction(logoutAction.failure, (state, action) => ({
     ...state,
     loading: false,
-    error: action.payload,
+    error: action.payload.message,
   }))
   .handleAction(logoutAction.success, () => initialState);

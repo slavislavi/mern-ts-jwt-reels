@@ -53,3 +53,14 @@ p, h1, h2, h3, h4, h5, h6 {
 #root, #__next {
   isolation: isolate;
 }
+
+.app h1 {
+  color: steelblue;
+  text-align: center;
+  margin: 1.5rem;
+}
+
+.errorText {
+  color: brown;
+  text-align: center;
+}

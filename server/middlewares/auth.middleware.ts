@@ -7,7 +7,7 @@ interface GetUserAuthInfoRequest extends Request {
   user: UserDto
 }
 
-export default function (req: GetUserAuthInfoRequest, res: Response, next: NextFunction) {
+export default function (req: GetUserAuthInfoRequest | any, res: Response, next: NextFunction) {
   try {
     const authrizationHeader = req.headers.authorization;
     if (!authrizationHeader) {

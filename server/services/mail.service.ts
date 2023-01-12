@@ -1,5 +1,4 @@
 import nodemailer, { SentMessageInfo } from 'nodemailer';
-import Mail from 'nodemailer/lib/mailer';
 
 class MailService {
   transporter;

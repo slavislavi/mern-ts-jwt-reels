@@ -15,7 +15,7 @@ export function* loginSagaWorker({payload}: ActionType<typeof loginAction.reques
     yield call(localStorage.setItem, "token", response.data.accessToken);
     yield put(loginAction.success(response.data));
   } catch (error: any) {
-    yield put(loginAction.failure(error.response.data.message));
+    yield put(loginAction.failure(error.response.data));
   }
 }
 
@@ -28,26 +28,10 @@ export function* registerSagaWorker({payload}: ActionType<typeof registerAction.
     yield call(localStorage.setItem, "token", response.data.accessToken);
     yield put(registerAction.success(response.data));
   } catch (error: any) {
-    yield put(registerAction.failure(error.response.data.message));
+    console.log('[LOGIN ERROR] ', error.response.data);
+    yield put(registerAction.failure(error.response.data));
   }
 }
-
-// export function* confirmRegisterSagaWorker({
-//   payload,
-// }: ActionType<typeof confirmRegisterAction.request>) {
-//   try {
-//     const response: SagaReturnType<typeof AuthService.confirmRegistration> =
-//       yield call(
-//         AuthService.confirmRegistration,
-//         payload.userId,
-//         payload.token
-//       );
-//     // Navigator.push(RouteNames.DATASETTINGS);
-//     yield put(confirmRegisterAction.success(response.data));
-//   } catch (error: any) {
-//     yield put(confirmRegisterAction.failure(error.response.data.message));
-//   }
-// }
 
 export function* logoutSagaWorker() {
   try {
@@ -55,13 +39,12 @@ export function* logoutSagaWorker() {
     yield call(localStorage.removeItem, "token");
     yield put(logoutAction.success());
   } catch (error: any) {
-    yield put(logoutAction.failure(error.response.data.message));
+    yield put(logoutAction.failure(error));
   }
 }
 
 export function* authSagaWatcher() {
   yield takeLatest(loginAction.request, loginSagaWorker);
   yield takeLatest(registerAction.request, registerSagaWorker);
-  // yield takeLatest(confirmRegisterAction.request, confirmRegisterSagaWorker);
   yield takeLatest(logoutAction.request, logoutSagaWorker);
 }
